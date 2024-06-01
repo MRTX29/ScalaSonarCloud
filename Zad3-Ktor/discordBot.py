@@ -44,4 +44,4 @@ async def on_message(message):
             ktor_endpoint = 'http://127.0.0.1:8080/message'
             requests.post(ktor_endpoint, json={'content': message.content})
 
-client.run('MTIyNjQ5NDkxODM0NDgzOTIwOA.GxZveM.6DQXLajlduFwOqZYBZu1Mc2vztDpqPxIqWAZDk')
+#client.run('')
