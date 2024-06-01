@@ -1,8 +1,0 @@
-openapi: "3.0.3"
-info:
-  title: "ktor_ebusiness API"
-  description: "ktor_ebusiness API"
-  version: "1.0.0"
-servers:
-- url: "https://ktor_ebusiness"
-paths: {}
