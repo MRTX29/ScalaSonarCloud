@@ -23,7 +23,6 @@ function getSecret() {
 function signToken(payload, secret) {
     return new Promise((resolve, reject) => {
         jwt.sign(payload, secret, (err, signed) => {
-            let tmp_salt = secret;
             err ? reject(err) : resolve({signed, secret})
         });
     });

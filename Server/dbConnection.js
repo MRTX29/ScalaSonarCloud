@@ -4,23 +4,21 @@ const bcrypt = require('bcryptjs');
 const fs = require('fs');
 const multer = require('multer');
 
-
 const sshClient = new Client();
 
-const storage = multer({
+let storage = multer({
   storage: diskStorage,
   limits: {
-    fileSize: 10000000
+     fileSize: 8000000
   }
 });
 
-const upload = multer({
+let diskUpload = multer({
   storage: diskStorage,
   limits: {
-    fileSize: 10000000
+     fileSize: 8000000
   }
 });
-
 
 const dbServer = {
     host: '127.0.0.1',
