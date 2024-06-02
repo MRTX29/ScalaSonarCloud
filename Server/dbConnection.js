@@ -7,24 +7,36 @@ const multer = require('multer');
 
 const sshClient = new Client();
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const storage = multer({
+  storage: diskStorage,
+  limits: {
+    fileSize: 10000000
+  }
+});
+
+const upload = multer({
+  storage: diskStorage,
+  limits: {
+    fileSize: 10000000
+  }
+});
 
 
 const dbServer = {
     host: '127.0.0.1',
     port: 1337,
     user: 'eye',  
-    password: '0hMy4reY0uHungryBr0?',
+    password: process.env.MYSQL_PASSWORD,
     database: 'paidb'
 }
 
 const sshTunnelConfig = {
-    host: '139.162.153.11',
+    host: process.env.IP_ADDRESS,
     port: 7895,
     username: 'eye',
-    password: '0hMy4reY0uHungryBr0?'
+    password: process.env.SSH,
 }
+
 const forwardConfig = {
     srcHost: '127.0.0.1',
     srcPort: 1337,

@@ -4,7 +4,7 @@ function encryptData(password, data) {
     let key = crypto.createHash('sha256').update(String(password)).digest('base64').substr(0, 32);
 
     let iv = crypto.randomBytes(16);
-    let cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let cipher = crypto.createCipheriv("AES-256-GCM", key, iv);
 
     let buffer = Buffer.from(data, 'utf8');
     let encrypted = Buffer.concat([cipher.update(buffer), cipher.final(), iv]);

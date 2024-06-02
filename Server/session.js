@@ -12,7 +12,6 @@ const { error } = require('ajv/dist/vocabularies/applicator/dependencies');
 
 const sessionLength = 15; // in minutes
 
-// ~~~~~~~~~~
 function getSecret() {
     return new Promise((resolve, reject) => {
         crypto.randomBytes(69, (err, buf) => {
@@ -24,7 +23,7 @@ function getSecret() {
 function signToken(payload, secret) {
     return new Promise((resolve, reject) => {
         jwt.sign(payload, secret, (err, signed) => {
-            tmp_salt = secret;
+            let tmp_salt = secret;
             err ? reject(err) : resolve({signed, secret})
         });
     });
