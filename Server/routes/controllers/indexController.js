@@ -1,9 +1,9 @@
-var moment = require('moment');
-var Ajv = require('ajv');
-var fs = require('fs');
-var session = require('../../session');
-var db = require('../../dbConnection');
-var session = require('../../session');
+let moment = require('moment');
+let Ajv = require('ajv');
+let fs = require('fs');
+let session = require('../../session');
+let db = require('../../dbConnection');
+let session = require('../../session');
 const { error } = require('ajv/dist/vocabularies/applicator/dependencies');
 
 
@@ -31,7 +31,7 @@ const getLogin = ((req, res) => {
 });
 
 const postLogin = ((req, res) => {
-    var [username, password] = ['123', '123'];
+    let [username, password] = ['123', '123'];
     if (properReq(req) && containsOnlyLetters(req.body.username) && containsSafeChars(req.body.password)) {
         [username, password] = [req.body.username, req.body.password];
     }
@@ -99,8 +99,8 @@ const postUpload = ((req, res) => {
     session.verifySessionAndToken(req)
     .then(result => result ? session.decodePayload(req) : res.json({}))
     .then(decoded => {
-        var expireTime = new Date();
-        var maxDaysValid = 30
+        let expireTime = new Date();
+        let maxDaysValid = 30
         expireTime.setTime(expireTime.getTime() + Math.min(req.body.daysvalid, maxDaysValid) * 86400000);
 
         if(xor(req.body.link, req.body.file)) {
@@ -134,9 +134,6 @@ const deleteFile = (req, res) => {
         res.status(500).json({ error: 'Database query error' });
     });
 }
-
-  
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function xor(a, b) {
     return (a || b) && !(a && b);
