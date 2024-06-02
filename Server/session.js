@@ -1,7 +1,7 @@
-var bcrypt = require('bcryptjs');
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
-var {
+let bcrypt = require('bcryptjs');
+let crypto = require('crypto');
+let jwt = require('jsonwebtoken');
+let {
     getDBrecord,
     updateDBsession,
     removeDBsession,
@@ -74,8 +74,8 @@ function decodePayload (token) {
 
 function validateLogin(username, password) {
     return new Promise((resolve, reject) => {
-        var tmpDBvalue = '';
-        var signedToken = '';
+        let tmpDBvalue = '';
+        let signedToken = '';
 
         getDBrecord('users', 'user_name', username)
         .then(dbResult => {
@@ -107,7 +107,7 @@ function validateSession(req, res, next) {
     verifySessionAndToken(req)
     .then(verified => {
         if (verified) {
-            var expireTime = new Date();
+            let expireTime = new Date();
             expireTime.setTime(expireTime.getTime() + sessionLength * 60000);
 
             res.cookie('session', req.cookies['session'], {
@@ -135,7 +135,6 @@ function killSession(req) {
         .catch(error => reject(error));
     });
 }
-
 
 module.exports = {
     validateLogin,
