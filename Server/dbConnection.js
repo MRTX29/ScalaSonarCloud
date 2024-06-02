@@ -66,7 +66,7 @@ const connectionSSHdb = new Promise((resolve, reject) => {
 function getDBrecord(table, column, data) {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
-            queryBody = `SELECT * FROM ${conn.escape(table).slice(1,-1)} WHERE ${conn.escape(column).slice(1,-1)} = ${conn.escape(data)};`;
+            const queryBody = `SELECT * FROM ${conn.escape(table).slice(1,-1)} WHERE ${conn.escape(column).slice(1,-1)} = ${conn.escape(data)};`;
 
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(result));
         });
@@ -76,7 +76,7 @@ function getDBrecord(table, column, data) {
 function updateDBsession(secret, session_expire, name) {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
-            queryBody = `UPDATE users SET secret = ${conn.escape(secret)}, session_expire = ${conn.escape(session_expire)} WHERE user_name = ${conn.escape(name)};`;
+            const queryBody = `UPDATE users SET secret = ${conn.escape(secret)}, session_expire = ${conn.escape(session_expire)} WHERE user_name = ${conn.escape(name)};`;
 
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(session_expire)); 
         });
@@ -86,7 +86,7 @@ function updateDBsession(secret, session_expire, name) {
 function removeDBsession(name) {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
-            queryBody = `UPDATE users SET secret = 0, session_expire = '0' WHERE user_name = ${conn.escape(name)};`;
+            const queryBody = `UPDATE users SET secret = 0, session_expire = '0' WHERE user_name = ${conn.escape(name)};`;
 
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(result)); 
         });
@@ -96,7 +96,7 @@ function removeDBsession(name) {
 function renewDBsession(name, expireTime) {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
-            queryBody = `UPDATE users SET session_expire = ${conn.escape(expireTime)} WHERE user_name = ${conn.escape(name)};`;
+            const queryBody = `UPDATE users SET session_expire = ${conn.escape(expireTime)} WHERE user_name = ${conn.escape(name)};`;
 
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(result)); 
         });
@@ -107,7 +107,7 @@ function addUserDB(name, password) {
     return new Promise((resolve, reject) => {
         if (containsOnlyLetters(name) && containsSafeChars(password)) {
             connectionSSHdb.then(conn => {
-                queryBody = `INSERT INTO users VALUES (${conn.escape(name)}, ${conn.escape(bcrypt.hashSync(password, 10))}, 0, 0)`;
+                const queryBody = `INSERT INTO users VALUES (${conn.escape(name)}, ${conn.escape(bcrypt.hashSync(password, 10))}, 0, 0)`;
 
                 conn.query(queryBody, err => err ? reject(err) : resolve(true));
             });
@@ -120,8 +120,7 @@ function addUserDB(name, password) {
 function getUsersDB() {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
-            queryBody = `SELECT user_name FROM users;`;
-
+            const queryBody = `SELECT user_name FROM users;`;
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(result));
         });
     });
@@ -140,7 +139,6 @@ function removeDBfile(name) {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
             const queryBody = `DELETE FROM files WHERE name = ${conn.escape(name)};`;
-
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(result));
         });
     });
@@ -149,7 +147,7 @@ function removeDBfile(name) {
 function addDBdata(path, name, displayName, file, link, creationTime, expireTime) {
     return new Promise((resolve, reject) => {
         connectionSSHdb.then(conn => {
-            queryBody = `INSERT INTO files VALUES (${conn.escape(path)}, ${conn.escape(name)}, ${conn.escape(displayName)}, 
+            const queryBody = `INSERT INTO files VALUES (${conn.escape(path)}, ${conn.escape(name)}, ${conn.escape(displayName)}, 
                                                    ${conn.escape(file)}, '${conn.escape(link)}', '${creationTime}', '${expireTime}');`;
 
             conn.query(queryBody, (err, result) => err ? reject(err) : resolve(result));

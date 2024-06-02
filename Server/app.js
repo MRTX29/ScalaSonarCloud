@@ -1,20 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var moment = require('moment-timezone');
-var fs = require('fs');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let moment = require('moment-timezone');
+let fs = require('fs');
 
-var indexRouter = require('./routes/index');
-// var insideRouter = require('./routes/inside');
-// var adminRouter = require('./routes/admin');
+let indexRouter = require('./routes/index');
+let session = require('./session')
+let app = express();
 
-var session = require('./session')
-
-var app = express();
 app.disable('x-powered-by');
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -34,7 +30,7 @@ app.use(logger((tokens, req, res) => {
   const responseTime = tokens['response-time'](req, res);
   const contentLength = tokens.res(req, res, 'content-length');
   
-  const logMessage = `${date} ${ip} ${method} ${url} ${status} ${responseTime} ms ${contentLength ? contentLength : '0'}`;
+  const logMessage = `${date} ${ip} ${method} ${url} ${status} ${responseTime} ms ${contentLength}`;
   console.log(logMessage);
   
   return logMessage;
@@ -46,12 +42,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-
-// app.use('/inside', session.validateSession);
-// app.use('/inside/admin', session.validateAdmin);
-// app.use('/inside/admin', adminRouter);
-// app.use('/inside', insideRouter);
-
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -67,6 +57,6 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-// app.listen(3000, () => {
-//   console.log('Server running on http://localhost:3000');
-// });
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
